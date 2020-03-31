@@ -25,7 +25,7 @@ func (r *router) handle(context *Context) {
 	key := context.req.Method + "-" + context.req.URL.Path
 
 	if handler, ok := r.r[key]; ok {
-		handler(context.response, context.req)
+		handler(context)
 	} else {
 		fmt.Fprintf(context.response, "404 NOT FOUND = %s\n", context.req.URL.Path)
 	}

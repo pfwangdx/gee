@@ -9,7 +9,7 @@ type Engine struct{
 	router *router
 }
 // HandlerFunc definition
-type HandlerFunc func(http.ResponseWriter, *http.Request)
+type HandlerFunc func(*Context)
 
 // New Engine
 func New() *Engine {

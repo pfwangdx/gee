@@ -2,22 +2,27 @@ package main
 
 import (
 	"engine"
-	"fmt"
-	"net/http"
 )
 
 func main() {
-	engine := engine.New()
+	eng := engine.New()
 
-	engine.GET("/", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprintf(w, "URL.Path = %q\n", req.URL.Path)
+	eng.GET("/", func(context *engine.Context) {
+		context.Html("<h1> hello gee <h1>")
 	})
 
-	engine.GET("/hello", func(w http.ResponseWriter, req *http.Request) {
-		for k, v := range req.Header {
-			fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
-		}
+	// curl "http://localhost:9999/hello?name=geektutu"
+	eng.GET("/hello", func(context *engine.Context) {
+		context.String("hello %s\n", context.Query("password"))
 	})
 
-	engine.Run()
+	// curl "http://localhost:9999/login" -X POST -d 'username=geektutu&password=1234'
+	eng.POST("/login", func(context *engine.Context) {
+		context.Json(map[string]string{
+			"username": context.PostForm("username"),
+			"password": context.PostForm("password"),
+		})
+	})
+
+	eng.Run()
 }
