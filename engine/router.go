@@ -1,5 +1,7 @@
 package engine
 
+import "fmt"
+
 type router struct {
 	r map[string]HandlerFunc
 }
@@ -17,5 +19,15 @@ func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
 
 func (r *router) list() map[string]HandlerFunc {
 	return r.r
+}
+
+func (r *router) handle(context *Context) {
+	key := context.req.Method + "-" + context.req.URL.Path
+
+	if handler, ok := r.r[key]; ok {
+		handler(context.response, context.req)
+	} else {
+		fmt.Fprintf(context.response, "404 NOT FOUND = %s\n", context.req.URL.Path)
+	}
 }
 

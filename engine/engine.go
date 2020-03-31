@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -40,12 +39,6 @@ func (engine *Engine) POST(pattern string, handler HandlerFunc) {
 
 // Handle http requests
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	key := req.Method + "-" + req.URL.Path
-
-	routes := engine.router.list()
-	if handler, ok := routes[key]; ok {
-		handler(w, req)
-	} else {
-		fmt.Fprintf(w, "404 NOT FOUND = %s\n", req.URL.Path)
-	}
+	context := NewContext(w, req)
+	engine.router.handle(context)
 }
