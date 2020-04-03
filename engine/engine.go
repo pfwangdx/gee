@@ -17,8 +17,8 @@ func New() *Engine {
 }
 
 // Run engine process
-func (engine *Engine) Run() (err error) {
-	return http.ListenAndServe(":9999", engine)
+func (engine *Engine) Run(port string) (err error) {
+	return http.ListenAndServe(port, engine)
 }
 
 // AddRoute about the handler func
