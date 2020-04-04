@@ -9,6 +9,12 @@ import (
 type Context struct {
 	response http.ResponseWriter
 	req *http.Request
+	params map[string]string
+}
+
+func (c *Context) Params(key string) string {
+	value, _ := c.params[key]
+	return value
 }
 
 func (c *Context) PostForm(key string) string {
@@ -25,7 +31,7 @@ func (c *Context) SetHeader(key string, value string) {
 
 // NewContext Context constructor
 func NewContext(w http.ResponseWriter, req *http.Request) *Context {
-	return &Context{w, req}
+	return &Context{w, req, make(map[string]string)}
 }
 
 // Output as string
@@ -33,7 +39,7 @@ func (c *Context) String(format string, values ...interface{}) {
 	c.response.Write([]byte(fmt.Sprintf(format, values...)))
 }
 
-// Output as json
+// Json output
 func (c *Context) Json(obj ...interface{}) {
 	c.SetHeader("Content-Type", "application/json")
 	encoder := json.NewEncoder(c.response)
@@ -42,12 +48,8 @@ func (c *Context) Json(obj ...interface{}) {
 	}
 }
 
-// Output as html
+// Html output
 func (c *Context) Html(format string, values ...interface{}) {
 	c.SetHeader("Content-Type", "text/html")
 	c.response.Write([]byte(fmt.Sprintf(format, values...)))
 }
-
-
-
-
