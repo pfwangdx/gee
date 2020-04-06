@@ -28,7 +28,11 @@ func (r *router) addRoute(method string, path string, handler HandlerFunc) {
 		r.roots[method] = &node {}
 	}
 
-	r.roots[method].insert(path, searchPath, 0)
+	fmt.Println("path = %s, searchPath = %s", path, searchPath)
+	is_ok := r.roots[method].insert(path, searchPath, 0)
+	if !is_ok {
+		fmt.Println("insert eror")
+	}
 	r.handlers[key] = handler
 }
 

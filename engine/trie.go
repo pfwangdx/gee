@@ -1,6 +1,9 @@
 package engine
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 type node struct {
 	pattern string
@@ -8,22 +11,29 @@ type node struct {
 	children []*node   // Children array 
 }
 
+func (n *node) String() string {
+	return fmt.Sprintf("node{pattern=%s, searchPath=%s}", n.pattern, n.searchPath)
+}
+
 // Insert node recursion, assign pattern to the leaf node' while branch node keep 
 // an empty pattern
-func (n *node) insert(pattern string, search_path []string, height int) {
+func (n *node) insert(pattern string, search_path []string, height int) bool {
+	fmt.Println("pattern insert = %s, search_path = %s, height = %d \n", pattern, search_path, height)
 	if len(search_path) == height {
+		fmt.Println("child is =", n)
+		// fmt.Println("n.pattern = %s", n.pattern)
 		n.pattern = pattern
-		return
+		return true
 	}
 
 	item := search_path[height]
 	child := n.matchChild(item)
 	if child == nil {
-		node := node { 
+		child = &node { 
 			searchPath: item}
-		n.children = append(n.children, &node)
+		n.children = append(n.children, child)
 	}
-	child.insert(pattern, search_path, height + 1)
+	return child.insert(pattern, search_path, height + 1)
 }
 
 // Search node recursion 
