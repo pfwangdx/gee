@@ -18,7 +18,7 @@ func (n *node) String() string {
 // Insert node recursion, assign pattern to the leaf node' while branch node keep 
 // an empty pattern
 func (n *node) insert(pattern string, search_path []string, height int) bool {
-	fmt.Println("pattern insert = %s, search_path = %s, height = %d \n", pattern, search_path, height)
+	// fmt.Println("pattern insert = %s, search_path = %s, height = %d \n", pattern, search_path, height)
 	if len(search_path) == height {
 		fmt.Println("child is =", n)
 		// fmt.Println("n.pattern = %s", n.pattern)

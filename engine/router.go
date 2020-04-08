@@ -28,7 +28,7 @@ func (r *router) addRoute(method string, path string, handler HandlerFunc) {
 		r.roots[method] = &node {}
 	}
 
-	fmt.Println("path = %s, searchPath = %s", path, searchPath)
+	// fmt.Println("path = %s, searchPath = %s", path, searchPath)
 	is_ok := r.roots[method].insert(path, searchPath, 0)
 	if !is_ok {
 		fmt.Println("insert eror")
@@ -79,14 +79,14 @@ func (r *router) handle(context *Context) {
 // parsePath to return search path of the real request path 
 func parsePath(path string) []string {
 	vs := strings.Split(path, "/")
-	search_path := make([]string, 0)
+	searchPath := make([]string, 0)
 	for _, item := range vs {
 		if item != "" {
-			search_path = append(search_path, item)
-			if item == "*" {
+			searchPath = append(searchPath, item)
+			if item[0] == '*' {
 				break
 			}
 		}
 	}
-	return search_path
+	return searchPath
 }
