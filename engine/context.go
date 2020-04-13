@@ -1,15 +1,15 @@
 package engine
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"encoding/json"
 )
 
 type Context struct {
 	response http.ResponseWriter
-	req *http.Request
-	params map[string]string
+	req      *http.Request
+	params   map[string]string
 }
 
 func (c *Context) Params(key string) string {

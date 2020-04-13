@@ -5,15 +5,16 @@ import (
 )
 
 // Engine used deal all requests
-type Engine struct{
+type Engine struct {
 	router *router
 }
+
 // HandlerFunc definition
 type HandlerFunc func(*Context)
 
 // New Engine
 func New() *Engine {
-	return &Engine{ newRouter() }
+	return &Engine{newRouter()}
 }
 
 // Run engine process
@@ -35,7 +36,6 @@ func (engine *Engine) GET(pattern string, handler HandlerFunc) {
 func (engine *Engine) POST(pattern string, handler HandlerFunc) {
 	engine.AddRoute("POST", pattern, handler)
 }
-
 
 // Handle http requests
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {

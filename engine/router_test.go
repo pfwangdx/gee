@@ -23,3 +23,23 @@ func TestParsePath(t *testing.T) {
 		t.Fatal("test parse path failed")
 	}
 }
+
+func TestGetRoute(t *testing.T) {
+	r := newTestRouter()
+	node, _ := r.getRoute("GET", "/hello/geektutu")
+
+	t.Log("=====>", node)
+	// t.Log(params["name"])
+
+	if node == nil {
+		t.Fatal("node should not be none")
+	}
+
+	// if node.pattern != "/hello/:name" {
+	// 	t.Fatal("should match /hello/:name")
+	// }
+
+	// if params["name"] != "geektutu" {
+	// 	t.Fatal("name should be equal to geektutu")
+	// }
+}

@@ -6,13 +6,13 @@ import (
 )
 
 type router struct {
-	roots map[string]*node
+	roots    map[string]*node
 	handlers map[string]HandlerFunc
 }
 
 func newRouter() *router {
 	return &router{
-		roots: make(map[string]*node),
+		roots:    make(map[string]*node),
 		handlers: make(map[string]HandlerFunc),
 	}
 }
@@ -20,17 +20,17 @@ func newRouter() *router {
 // AddRoute about the handler func
 func (r *router) addRoute(method string, path string, handler HandlerFunc) {
 	searchPath := parsePath(path)
-	
+
 	key := method + "-" + path
 	// roots operaions
 	_, ok := r.roots[method]
 	if !ok {
-		r.roots[method] = &node {}
+		r.roots[method] = &node{}
 	}
 
 	// fmt.Println("path = %s, searchPath = %s", path, searchPath)
-	is_ok := r.roots[method].insert(path, searchPath, 0)
-	if !is_ok {
+	Isok := r.roots[method].insert(path, searchPath, 0)
+	if !Isok {
 		fmt.Println("insert eror")
 	}
 	r.handlers[key] = handler
@@ -40,6 +40,7 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 	searchPath := parsePath(path)
 	params := make(map[string]string)
 	node, ok := r.roots[method]
+	fmt.Println("----> GetRoute: node: ", node, "ok: ", ok)
 
 	if !ok {
 		return nil, nil
@@ -68,7 +69,6 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 func (r *router) handle(context *Context) {
 	key := context.req.Method + "-" + context.req.URL.Path
 
-
 	if handler, ok := r.handlers[key]; ok {
 		handler(context)
 	} else {
@@ -76,7 +76,7 @@ func (r *router) handle(context *Context) {
 	}
 }
 
-// parsePath to return search path of the real request path 
+// parsePath to return search path of the real request path
 func parsePath(path string) []string {
 	vs := strings.Split(path, "/")
 	searchPath := make([]string, 0)
