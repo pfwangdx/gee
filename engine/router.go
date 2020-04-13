@@ -34,19 +34,19 @@ func (r *router) addRoute(method string, path string, handler HandlerFunc) {
 		fmt.Println("insert eror")
 	}
 	r.handlers[key] = handler
+	fmt.Println(" >>>> router: ", r.roots)
 }
 
 func (r *router) getRoute(method string, path string) (*node, map[string]string) {
 	searchPath := parsePath(path)
 	params := make(map[string]string)
-	node, ok := r.roots[method]
-	fmt.Println("----> GetRoute: node: ", node, "ok: ", ok)
+	root, ok := r.roots[method]
 
 	if !ok {
 		return nil, nil
 	}
 
-	n := node.search(path, searchPath, 0)
+	n := root.search(searchPath, 0)
 	// The route match
 	if n != nil {
 		// why
@@ -56,7 +56,7 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 			if part[0] == ':' {
 				params[part[1:]] = searchPath[index]
 			}
-			if part[0] == '*' {
+			if part[0] == '*' && len(part) > 1 {
 				params[part[1:]] = strings.Join(searchPath[index:], "/")
 				break
 			}
