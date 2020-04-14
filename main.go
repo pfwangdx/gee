@@ -7,11 +7,14 @@ import (
 func main() {
 	eng := engine.New()
 
+	// There are two kinds of mode embedded in the engine module(GET, POST)
+	// Context offer three output ways(Html, String, Json).
 	eng.GET("/", func(context *engine.Context) {
 		context.Html("<h1> hello gee <h1>")
 	})
-
+	
 	// curl "http://localhost:9999/hello?name=geektutu"
+	// The request params will be parsed and put into context 
 	eng.GET("/hello", func(context *engine.Context) {
 		context.String("hello %s\n", context.Query("name"))
 	})
