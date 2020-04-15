@@ -12,9 +12,9 @@ func main() {
 	eng.GET("/", func(context *engine.Context) {
 		context.Html("<h1> hello gee <h1>")
 	})
-	
+
 	// curl "http://localhost:9999/hello?name=geektutu"
-	// The request params will be parsed and put into context 
+	// The request params will be parsed and put into context
 	eng.GET("/hello", func(context *engine.Context) {
 		context.String("hello %s\n", context.Query("name"))
 	})

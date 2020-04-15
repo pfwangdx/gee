@@ -19,11 +19,8 @@ func (n *node) String() string {
 // Insert node recursion, assign pattern to the leaf node' while branch node keep
 // an empty pattern
 func (n *node) insert(pattern string, searchPath []string, height int) bool {
-	// fmt.Println("pattern insert = %s, searchPath = %s, height = %d \n", pattern, searchPath, height)
 	if len(searchPath) == height {
-		// fmt.Println("n.pattern = %s", n.pattern)
 		n.pattern = pattern
-		fmt.Println("child is =", n)
 		return true
 	}
 
@@ -39,7 +36,6 @@ func (n *node) insert(pattern string, searchPath []string, height int) bool {
 
 // Search node recursion
 func (n *node) search(searchPath []string, height int) *node {
-	fmt.Println("**** searchPath: ", searchPath, "height: ", height)
 	if len(searchPath) == height || strings.HasPrefix(n.searchPath, "*") {
 		if n.pattern == "" {
 			return nil
@@ -48,9 +44,7 @@ func (n *node) search(searchPath []string, height int) *node {
 	}
 
 	item := searchPath[height]
-	fmt.Println("**** n.children: ", n.children, "item: ", item)
 	children := n.matchChildren(item)
-	fmt.Println("**** children: ", children)
 
 	for _, child := range children {
 		res := child.search(searchPath, height+1)
