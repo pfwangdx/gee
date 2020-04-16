@@ -36,6 +36,7 @@ func (r *router) addRoute(method string, path string, handler HandlerFunc) {
 	fmt.Println(" >>>> router: ", r.roots)
 }
 
+// getRoute used to retrieve the search tree node and param values
 func (r *router) getRoute(method string, path string) (*node, map[string]string) {
 	searchPath := parsePath(path)
 	params := make(map[string]string)
@@ -65,6 +66,7 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 	return nil, nil
 }
 
+// handle the context which contains request info
 func (r *router) handle(context *Context) {
 	key := context.req.Method + "-" + context.req.URL.Path
 
