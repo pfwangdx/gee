@@ -4,17 +4,31 @@ import (
 	"net/http"
 )
 
-// Engine used deal all requests
-type Engine struct {
-	router *router
-}
-
 // HandlerFunc definition
 type HandlerFunc func(*Context)
 
+type(
+	// Engine used deal all requests
+	Engine struct {
+		router *router
+		groups []*RouterGroup
+	}
+
+	// RouterGroup respresent a router group 
+	RouterGroup struct {
+		prefix string
+		engine *Engine
+	}
+) 
+
+
 // New Engine
 func New() *Engine {
-	return &Engine{newRouter()}
+	engine := &Engine{
+		router: newRouter(),
+		groups: []*RouterGroup{},
+	}
+	return engine
 }
 
 // Run engine process
